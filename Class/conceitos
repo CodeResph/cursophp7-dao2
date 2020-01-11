@@ -1,0 +1,5 @@
+Stored Procedure, que traduzido significa Procedimento Armazenado, é uma conjunto de comandos em SQL que podem ser executados de uma só vez, como em uma função. Ele armazena tarefas repetitivas e aceita parâmetros de entrada para que a tarefa seja efetuada de acordo com a necessidade individual.
+
+Um Stored Procedure pode reduzir o tráfego na rede, melhorar a performance de um banco de dados, criar tarefas agendadas, diminuir riscos, criar rotinas de processsamento, etc.
+
+Por todas estas e outras funcionalidades é que os stored procedures são de extrema importância para os DBAs e desenvolvedores.

@@ -32,11 +32,11 @@
  		return $this->dessenha = $value;
  	}
  	//recuperando o atributo dtcadastro em uma funcao publica
- 	public function getDtCadastro(){
+ 	public function getDtcadastro(){
  		return $this->dtcadastro;
  	}
  	//setando valor ao atributo dtcadastro 
- 	public function setDtCadastro($value) {
+ 	public function setDtcadastro($value) {
  		return $this->dtcadastro = $value;
  	}
 
@@ -52,14 +52,7 @@
  		//se existir algum registro(se for maior do que zero), 
  		//execute os sets 
  		if (count($result) > 0) {
- 			//variavel $row recebe o primeiro registro do array
- 			$row = $result[0];
-
- 			$this->setId($row['id']);
- 			$this->setDeslogin($row['deslogin']);
- 			$this->setDessenha($row['dessenha']);
- 			//função DateTime, formatando a data
- 			$this->setDtCadastro(new DateTime($row['dtcadastro']));
+ 			$this->setData($result[0]);
  		}
  	}
 
@@ -95,18 +88,58 @@ $result = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND de
  		//se existir algum registro(se for maior do que zero), 
  		//execute os sets 
  		if (count($result) > 0) {
- 			//variavel $row recebe o primeiro registro do array
- 			$row = $result[0];
-
- 			$this->setId($row['id']);
- 			$this->setDeslogin($row['deslogin']);
- 			$this->setDessenha($row['dessenha']);
- 			//função DateTime, formatando a data
- 			$this->setDtCadastro(new DateTime($row['dtcadastro']));
+ 			$this->setData($result[0]);
  		} else {
  			throw new Exception("Login e/ou senha incorretos.");
  			
  		}
+ 	}
+
+ 	//Método SetData
+ 	public function setData($data){
+
+ 			$this->setId($data['id']);
+ 			$this->setDeslogin($data['deslogin']);
+ 			$this->setDessenha($data['dessenha']);
+ 			//função DateTime, formatando a data
+ 			$this->setDtcadastro(new DateTime($data['dtcadastro']));
+ 	}
+
+ 	//Método INSERT
+ 	public function insert(){
+ 		$sql = new Sql();
+ 		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+ 				':LOGIN'=>$this->getDeslogin(),
+ 				':PASSWORD'=>$this->getDessenha()
+ 		));
+
+ 		if(count($results) > 0) {
+ 			$this->setData($results[0]);
+ 		}
+ 	}
+
+ 	//Método UPDATE - DAO
+ 	public function update($login, $password) {
+
+ 		$this->setDeslogin($login);
+ 		$this->setDessenha($password);
+
+ 		$sql = new Sql();
+
+ 	$sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE id = :ID", array(
+ 		':LOGIN'=>$this->getDeslogin(),
+ 		':PASSWORD'=>$this->getDessenha(),
+ 		':ID'=>$this->getId()
+
+ 	));
+ 	}
+
+ 	//Método construtor - para evitar erros, os parametros são pre carregados com 
+ 	//valor vazio para nao ser obrigatorio inserir os mesmos como parametro no metodo 
+ 	//construtor em index.php
+ 	public function __construct($login = "", $password = ""){
+ 		$this->setDeslogin($login);
+ 		$this->setDessenha($password);
  	}
 
  	//formatando os dados do banco em string e inserindo em um array
@@ -115,7 +148,7 @@ $result = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND de
  			"id"=>$this->getId(),
  			"deslogin"=>$this->getDeslogin(),
  			"dessenha"=>$this->getDessenha(),
- 			"dtcadastro"=>$this->getDtCadastro()->format("d/m/Y H:i:s")
+ 			"dtcadastro"=>$this->getDtcadastro()->format("d/m/Y H:i:s")
  		));
  	}
  }

@@ -25,10 +25,22 @@ require_once("config.php");
 // echo json_encode($search);
 
 //carrega um usuario autenticado (login e senha)
-$usuario = new Usuario();
-$usuario->login("isa345", "2615489Okhg"); //deve-se informar os dois paramtros esperados (login e senha)
+// $usuario = new Usuario();
+// $usuario->login("isa345", "2615489Okhg"); //deve-se informar os dois paramtros esperados (login e senha)
+// echo $usuario; 	
 
-echo $usuario; 	
 
+//Carregando a procedure INSERT - Criando um novo user
+$aluno = new Usuario("Jhona", "@34er");		
+$aluno->insert();
+echo $aluno;
+
+
+//Alterando dados do usuário
+/*$usuario = new Usuario();
+$usuario->loadById(8);
+$usuario->update("Isaque", "!@#$");
+echo $usuario;
+*/
 
 ?>

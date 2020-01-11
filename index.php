@@ -31,10 +31,10 @@ require_once("config.php");
 
 
 //Carregando a procedure INSERT - Criando um novo user
-$aluno = new Usuario("Jhona", "@34er");		
+/*$aluno = new Usuario("Jhona", "@34er");		
 $aluno->insert();
 echo $aluno;
-
+*/
 
 //Alterando dados do usuário
 /*$usuario = new Usuario();
@@ -42,5 +42,14 @@ $usuario->loadById(8);
 $usuario->update("Isaque", "!@#$");
 echo $usuario;
 */
+
+$user = new Usuario();
+$user->loadById(33);
+
+$user->delete();
+
+echo $user;
+
+
 
 ?>

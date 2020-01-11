@@ -134,6 +134,21 @@ $result = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND de
  	));
  	}
 
+ 	//Método DELETE
+ 	public function delete() {
+ 		$sql = new Sql();
+
+ 		$sql->query("DELETE FROM tb_usuarios WHERE id = :ID", array(
+ 			':ID'=>$this->getId()
+ 		));
+ 		//Limpando o objeto - memoria
+ 		$this->setId(0);
+ 		$this->setDeslogin("");
+ 		$this->setDessenha("");
+ 		$this->setDtcadastro(new DateTime());
+ 	}
+
+
  	//Método construtor - para evitar erros, os parametros são pre carregados com 
  	//valor vazio para nao ser obrigatorio inserir os mesmos como parametro no metodo 
  	//construtor em index.php
@@ -141,6 +156,8 @@ $result = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND de
  		$this->setDeslogin($login);
  		$this->setDessenha($password);
  	}
+
+
 
  	//formatando os dados do banco em string e inserindo em um array
  	public function __toString() {
